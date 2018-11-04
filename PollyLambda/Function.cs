@@ -30,13 +30,11 @@ namespace PollyLambda
 
         public async Task Handler(SQSEvent sqsEvent, ILambdaContext context)
         {
-
             foreach (var msg in sqsEvent.Records)
             {
                 try
                 {
                     var post = JsonConvert.DeserializeObject<Post>(msg.Body);
-
                     var result = await ConvertFromTextUsingPolly(post);
                     var message = new Message
                     {
@@ -51,8 +49,8 @@ namespace PollyLambda
                 {
                     Console.WriteLine(e);
                     throw;
-                }             
-            }            
+                }
+            }                    
         }
 
         private async Task<SynthesizeSpeechResponse> ConvertFromTextUsingPolly(Post post)
@@ -73,14 +71,10 @@ namespace PollyLambda
         {
             await _sqsClient.SendMessageAsync(new SendMessageRequest
             {
-                QueueUrl = "YOUR_SQS_QUEUE/s3-queue",
+                QueueUrl = Environment.GetEnvironmentVariable("SQS_Queue"),
                 MessageBody = JsonConvert.SerializeObject(msg)
             });
 
         }
-
-      
-
-
     }
 }

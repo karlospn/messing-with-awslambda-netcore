@@ -21,15 +21,23 @@ namespace DynamoLambda
         {
             _sqsClient = new AmazonSQSClient();
             var client = new AmazonDynamoDBClient();
-            _table = Table.LoadTable(client, "Post");
+            _table = Table.LoadTable(client, Environment.GetEnvironmentVariable("DynamoDb_Table"));
         }
         
         public async Task Handler(Post input, ILambdaContext context)
         {
-            var id = Guid.NewGuid().ToString();
+            try
+            {
+                var id = Guid.NewGuid().ToString();
 
-            await AddRecordToDynamoDb(input, id);
-            await SendToSqsAsync(input, id);
+                await AddRecordToDynamoDb(input, id);
+                await SendToSqsAsync(input, id);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }        
         }
 
         private async Task AddRecordToDynamoDb(Post input, string id)
@@ -53,7 +61,7 @@ namespace DynamoLambda
             post.Id = id;
             await _sqsClient.SendMessageAsync(new SendMessageRequest
             {
-                QueueUrl = "YOUR_SQS_URI/posts-queue",
+                QueueUrl = Environment.GetEnvironmentVariable("SQS_Queue"),
                 MessageBody = JsonConvert.SerializeObject(post)
             });
 

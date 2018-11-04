@@ -1,9 +1,7 @@
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
-using Amazon.DynamoDBv2.Model;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.SQSEvents;
 using Amazon.S3;
@@ -25,7 +23,7 @@ namespace S3Lambda
             _s3Client = new AmazonS3Client();
 
             var client = new AmazonDynamoDBClient();
-            _table = Table.LoadTable(client, "Post");
+            _table = Table.LoadTable(client, Environment.GetEnvironmentVariable("DynamoDb_Table"));
         }
 
         public async Task Handler(SQSEvent sqsEvent, ILambdaContext context)
@@ -50,7 +48,7 @@ namespace S3Lambda
         {
             var putRequest = new PutObjectRequest
             {
-                BucketName = "my-audios-bucket-polly",
+                BucketName = Environment.GetEnvironmentVariable("S3_bucket_name"),
                 Key = $"{msg.Post.Id}.mp3",
                 ContentType = msg.AudioType,
                 InputStream = msg.Audio
@@ -61,9 +59,11 @@ namespace S3Lambda
 
         private async Task UpdateDynamoDb(Post post)
         {
+            var bucketRegionUri = Environment.GetEnvironmentVariable("S3_bucket_uri");
+            var bucketName = Environment.GetEnvironmentVariable("S3_bucket_name");
             var doc = new Document
             {
-                ["Uri"] = $"YOUR_S3_URI/{post.Id}.mp3",
+                ["Uri"] = $"{bucketRegionUri}/{bucketName}/{post.Id}.mp3",
                 ["Status"] = "Processed",
             };
 
