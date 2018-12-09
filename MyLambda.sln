@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamoLambda", "DynamoLambd
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S3Lambda", "S3Lambda\S3Lambda.csproj", "{8074B886-C28E-4363-8D2D-B62470B8ECD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{6E65BDEC-446C-4A93-8A09-18F61E96F04B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{6E65BDEC-446C-4A93-8A09-18F61E96F04B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiAsLambda", "WebApiAsLambda\WebApiAsLambda.csproj", "{2C82B7E6-4399-4046-B8FB-C88073D55660}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{6E65BDEC-446C-4A93-8A09-18F61E96F04B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E65BDEC-446C-4A93-8A09-18F61E96F04B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E65BDEC-446C-4A93-8A09-18F61E96F04B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C82B7E6-4399-4046-B8FB-C88073D55660}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C82B7E6-4399-4046-B8FB-C88073D55660}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C82B7E6-4399-4046-B8FB-C88073D55660}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C82B7E6-4399-4046-B8FB-C88073D55660}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
